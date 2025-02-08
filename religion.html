@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> الكتب الدينية</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+</head>
+<body>
+    <div class="container">
+        <!-- جعل الشعار قابلاً للنقر للعودة إلى الصفحة الرئيسية -->
+        <a href="index.html">
+            <img src="logo.jpg" alt="شعار النادي" class="logo">
+        </a>
+        
+        <h1>Univation</h1>
+        <p>إكتشف مجموعة واسعة من الكتب الدينية</p>
+             <!-- شريط البحث -->
+             <div class="search-bar">
+                <input type="text" id="searchBar" placeholder="ابحث عن كتاب..." onkeyup="searchBooks()">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            
+            
+            <br><br> 
+       <!-- قائمة الكتب الدينية -->
+<div class="books-grid">
+    <div class="book" data-title="لأنك الله">
+        <img src="lianak.jpg" alt="لأنك الله">
+        <div class="book-info">
+            <h3 class="title">لأنك الله</h3>
+            <p class="price">1000.00 DA</p>
+        </div>
+    </div>
+
+    <div class="book" data-title="رياض الصالحين">
+        <img src="riyad-salehin.jpg" alt="رياض الصالحين">
+        <div class="book-info">
+            <h3 class="title">رياض الصالحين</h3>
+            <p class="price">650.50 DA</p>
+        </div>
+    </div>
+
+    <div class="book" data-title="صحيح البخاري">
+        <img src="bukhari.jpg" alt="صحيح البخاري">
+        <div class="book-info">
+            <h3 class="title">صحيح البخاري</h3>
+            <p class="price">980.75 DA</p>
+        </div>
+    </div>
+
+    <div class="book" data-title="إحياء علوم الدين">
+        <img src="ihya-uloom.jpg" alt="إحياء علوم الدين">
+        <div class="book-info">
+            <h3 class="title">إحياء علوم الدين</h3>
+            <p class="price">1100.30 DA</p>
+        </div>
+    </div>
+</div>
+
+    
+    <script>
+        function searchBooks() {
+            let input = document.getElementById("searchBar").value.toLowerCase();
+            let books = document.querySelectorAll(".book");
+    
+            books.forEach(book => {
+                let title = book.getAttribute("data-title").toLowerCase();
+                if (title.includes(input)) {
+                    book.style.display = "block";
+                } else {
+                    book.style.display = "none";
+                }
+            });
+        }
+    </script>
+    </body>
+    </html>
