@@ -95,21 +95,21 @@ p {
 /* شبكة الكتب */
 .books-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(2, 1fr); /* صف يحتوي على كتابين */
+    gap: 20px; /* زيادة المسافة بين الكتب */
     justify-content: center;
-    padding: 10px;
+    padding: 15px;
 }
 
 .book {
     background-color: white;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
     padding: 8px;
     transition: transform 0.2s;
     width: 100%;
-    max-width: 150px;
+    max-width: 180px; /* تصغير حجم الكتاب */
     margin: auto;
 }
 
@@ -119,22 +119,14 @@ p {
 
 .book img {
     width: 100%;
-    height: 160px;
+    height: 200px; /* زيادة طول الغلاف ليكون واضحًا */
     object-fit: cover;
-    border-radius: 4px;
+    border-radius: 6px;
 }
 
-/* تحسينات للشاشات الصغيرة جدًا */
-@media (max-width: 350px) {
+@media (max-width: 600px) {
     .books-grid {
-        grid-template-columns: repeat(1, 1fr);
-    }
-}
-
-/* تحسينات للشاشات المتوسطة والكبيرة */
-@media (min-width: 600px) {
-    .books-grid {
-        grid-template-columns: repeat(3, minmax(140px, 1fr));
+        grid-template-columns: repeat(1, 1fr); /* كتاب واحد في الصف عند الشاشات الصغيرة */
     }
 }
 
@@ -146,29 +138,32 @@ p {
 .category {
     color: gray;
     font-size: 12px;
-    margin-bottom: 2px;
+    margin-bottom: 3px;
 }
 
 .title {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: bold;
 }
 
 .price {
-    font-size: 12px;
+    font-size: 13px;
     color: blue;
     font-weight: bold;
-    margin-top: 2px;
+    margin-top: 3px;
 }
+
+
+/* شريط البحث */
 .search-bar {
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 25px;
-    padding: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 80%;
+    padding: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+    width: 90%;
     margin: 20px auto;
 }
 
@@ -176,7 +171,7 @@ p {
     flex: 1;
     border: none;
     outline: none;
-    padding: 10px;
+    padding: 12px;
     font-size: 16px;
     border-radius: 25px;
     background: transparent;
@@ -186,14 +181,14 @@ p {
     background: #8a2be2;
     border: none;
     color: white;
-    padding: 10px 15px;
+    padding: 12px 16px;
     border-radius: 50%;
     cursor: pointer;
     transition: background 0.3s ease;
 }
 
 .search-bar button:hover {
-    background: #8a2be2;
+    background: #7a1ebd;
 }
 
 .search-bar i {
