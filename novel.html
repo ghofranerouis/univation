@@ -6,76 +6,89 @@
     <title>الروايات</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
 </head>
 <body>
     <div class="container">
-        <!-- جعل الشعار قابلاً للنقر للعودة إلى الصفحة الرئيسية -->
         <a href="index.html">
             <img src="logo.jpg" alt="شعار النادي" class="logo">
         </a>
         
         <h1>Univation Club</h1>
-        <p>إكتشف مجموعة واسعة من الروايات</p>
-  
-             <!-- شريط البحث -->
-             <div class="search-bar">
-                <input type="text" id="searchBar" placeholder="ابحث عن كتاب..." onkeyup="searchBooks()">
-                <button><i class="fas fa-search"></i></button>
+        <p>اكتشف مجموعة واسعة من الروايات</p>
+        
+        <div class="search-bar">
+            <input type="text" id="searchBar" placeholder="ابحث عن رواية..." onkeyup="searchBooks()">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+
+        <br><br>
+
+        <div class="books-grid">
+            <div class="book" onclick="openModal('البؤساء', 'فيكتور هوغو', '750.00 DA', 'رواية فرنسية تحكي عن الظلم الاجتماعي والمصاعب في القرن التاسع عشر.')">
+                <img src="les-miserables.jpg" alt="البؤساء">
+                <div class="book-info">
+                    <h3 class="title">البؤساء</h3>
+                    <p class="price">750.00 DA</p>
+                </div>
             </div>
-            
-            
-            <br><br> 
-        <!-- قائمة الكتب -->
-<div class="books-grid">
-    <div class="book" data-title="البؤساء">
-        <img src="les-miserables.jpg" alt="البؤساء">
-        <div class="book-info">
-            <h3 class="title">البؤساء</h3>
-            <p class="price">750.00 DA</p>
+
+            <div class="book" onclick="openModal('مئة عام من العزلة', 'غابرييل غارسيا ماركيز', '890.50 DA', 'رواية تتبع تاريخ عائلة بوينديا عبر الأجيال في قرية ماكوندو.')">
+                <img src="one-hundred-years.jpg" alt="مئة عام من العزلة">
+                <div class="book-info">
+                    <h3 class="title">مئة عام من العزلة</h3>
+                    <p class="price">890.50 DA</p>
+                </div>
+            </div>
+
+            <div class="book" onclick="openModal('الخيميائي', 'باولو كويلو', '670.75 DA', 'رحلة شاب يبحث عن كنزه الشخصي متبعًا إشارات الحياة.')">
+                <img src="alchemist.jpg" alt="الخيميائي">
+                <div class="book-info">
+                    <h3 class="title">الخيميائي</h3>
+                    <p class="price">670.75 DA</p>
+                </div>
+            </div>
+
+            <div class="book" onclick="openModal('الجريمة والعقاب', 'فيودور دوستويفسكي', '940.30 DA', 'رواية فلسفية تناقش الصراع الداخلي بعد ارتكاب جريمة.')">
+                <img src="crime-and-punishment.jpg" alt="الجريمة والعقاب">
+                <div class="book-info">
+                    <h3 class="title">الجريمة والعقاب</h3>
+                    <p class="price">940.30 DA</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="book" data-title="مئة عام من العزلة">
-        <img src="one-hundred-years.jpg" alt="مئة عام من العزلة">
-        <div class="book-info">
-            <h3 class="title">مئة عام من العزلة</h3>
-            <p class="price">890.50 DA</p>
+    <div id="bookModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title"></h2>
+            <p><strong>المؤلف:</strong> <span id="modal-author"></span></p>
+            <p><strong>السعر:</strong> <span id="modal-price"></span></p>
+            <p id="modal-description"></p>
         </div>
     </div>
 
-    <div class="book" data-title="الخيميائي">
-        <img src="alchemist.jpg" alt="الخيميائي">
-        <div class="book-info">
-            <h3 class="title">الخيميائي</h3>
-            <p class="price">670.75 DA</p>
-        </div>
-    </div>
-
-    <div class="book" data-title="الجريمة والعقاب">
-        <img src="crime-and-punishment.jpg" alt="الجريمة والعقاب">
-        <div class="book-info">
-            <h3 class="title">الجريمة والعقاب</h3>
-            <p class="price">940.30 DA</p>
-        </div>
-    </div>
-</div>
-
-    
     <script>
         function searchBooks() {
             let input = document.getElementById("searchBar").value.toLowerCase();
             let books = document.querySelectorAll(".book");
-    
             books.forEach(book => {
-                let title = book.getAttribute("data-title").toLowerCase();
-                if (title.includes(input)) {
-                    book.style.display = "block";
-                } else {
-                    book.style.display = "none";
-                }
+                let title = book.querySelector(".title").innerText.toLowerCase();
+                book.style.display = title.includes(input) ? "block" : "none";
             });
         }
+
+        function openModal(title, author, price, description) {
+            document.getElementById("modal-title").innerText = title;
+            document.getElementById("modal-author").innerText = author;
+            document.getElementById("modal-price").innerText = price;
+            document.getElementById("modal-description").innerText = description;
+            document.getElementById("bookModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("bookModal").style.display = "none";
+        }
     </script>
-    </body>
-    </html>
+</body>
+</html>
