@@ -9,7 +9,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- جعل الشعار قابلاً للنقر للعودة إلى الصفحة الرئيسية -->
         <a href="index.html">
             <img src="logo.jpg" alt="شعار النادي" class="logo">
         </a>
@@ -17,51 +16,16 @@
         <h1>Univation Club</h1>
         <p>اكتشف مجموعة واسعة من الكتب التاريخية</p>
         
-        <!-- شريط البحث -->
         <div class="search-bar">
             <input type="text" id="searchBar" placeholder="ابحث عن كتاب..." onkeyup="searchBooks()">
             <button><i class="fas fa-search"></i></button>
         </div>
 
         <br><br>
-
-        <!-- قائمة الكتب -->
-        <div class="books-grid">
-            <div class="book" onclick="openModal('البداية والنهاية', 'ابن كثير', '850.00 DA', 'مرجع شامل في التاريخ الإسلامي منذ خلق الكون إلى عصر المؤلف.')">
-                <img src="bidaya.jpg" alt="البداية والنهاية">
-                <div class="book-info">
-                    <h3 class="title">البداية والنهاية</h3>
-                    <p class="price">850.00 DA</p>
-                </div>
-            </div>
-
-            <div class="book" onclick="openModal('تاريخ الطبري', 'محمد بن جرير الطبري', '920.50 DA', 'سرد تاريخي للأحداث الإسلامية منذ بدء الخلق حتى نهاية العصر العباسي.')">
-                <img src="tabari.jpg" alt="تاريخ الطبري">
-                <div class="book-info">
-                    <h3 class="title">تاريخ الطبري</h3>
-                    <p class="price">920.50 DA</p>
-                </div>
-            </div>
-
-            <div class="book" onclick="openModal('العبر وديوان المبتدأ والخبر', 'ابن خلدون', '780.75 DA', 'تحليل اجتماعي وتاريخي لنشوء الدول وسقوطها.')">
-                <img src="ibn-khaldun.jpg" alt="العبر وديوان المبتدأ والخبر">
-                <div class="book-info">
-                    <h3 class="title">العبر وديوان المبتدأ والخبر</h3>
-                    <p class="price">780.75 DA</p>
-                </div>
-            </div>
-
-            <div class="book" onclick="openModal('قصة الحضارة', 'ويل ديورانت', '1050.30 DA', 'سلسلة تاريخية واسعة تغطي تطور الحضارات عبر العصور.')">
-                <img src="civilization.jpg" alt="قصة الحضارة">
-                <div class="book-info">
-                    <h3 class="title">قصة الحضارة</h3>
-                    <p class="price">1050.30 DA</p>
-                </div>
-            </div>
-        </div>
+        
+        <div class="books-grid" id="booksGrid"></div>
     </div>
 
-    <!-- نافذة منبثقة لعرض تفاصيل الكتاب -->
     <div id="bookModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -73,27 +37,52 @@
     </div>
 
     <script>
+        const books = [
+            { title: "البداية والنهاية", author: "ابن كثير", price: "850.00 DA", description: "مرجع شامل في التاريخ الإسلامي منذ خلق الكون إلى عصر المؤلف.", image: "bidaya.jpg" },
+            { title: "تاريخ الطبري", author: "محمد بن جرير الطبري", price: "920.50 DA", description: "سرد تاريخي للأحداث الإسلامية منذ بدء الخلق حتى نهاية العصر العباسي.", image: "tabari.jpg" },
+            { title: "العبر وديوان المبتدأ والخبر", author: "ابن خلدون", price: "780.75 DA", description: "تحليل اجتماعي وتاريخي لنشوء الدول وسقوطها.", image: "ibn-khaldun.jpg" },
+            { title: "قصة الحضارة", author: "ويل ديورانت", price: "1050.30 DA", description: "سلسلة تاريخية واسعة تغطي تطور الحضارات عبر العصور.", image: "civilization.jpg" }
+        ];
+
+        function loadBooks() {
+            const booksGrid = document.getElementById("booksGrid");
+            booksGrid.innerHTML = "";
+            books.forEach(book => {
+                const bookDiv = document.createElement("div");
+                bookDiv.classList.add("book");
+                bookDiv.onclick = () => openModal(book);
+                bookDiv.innerHTML = `
+                    <img src="${book.image}" alt="${book.title}">
+                    <div class="book-info">
+                        <h3 class="title">${book.title}</h3>
+                        <p class="price">${book.price}</p>
+                    </div>
+                `;
+                booksGrid.appendChild(bookDiv);
+            });
+        }
+
         function searchBooks() {
             let input = document.getElementById("searchBar").value.toLowerCase();
-            let books = document.querySelectorAll(".book");
-
-            books.forEach(book => {
+            document.querySelectorAll(".book").forEach(book => {
                 let title = book.querySelector(".title").innerText.toLowerCase();
                 book.style.display = title.includes(input) ? "block" : "none";
             });
         }
 
-        function openModal(title, author, price, description) {
-            document.getElementById("modal-title").innerText = title;
-            document.getElementById("modal-author").innerText = author;
-            document.getElementById("modal-price").innerText = price;
-            document.getElementById("modal-description").innerText = description;
+        function openModal(book) {
+            document.getElementById("modal-title").innerText = book.title;
+            document.getElementById("modal-author").innerText = book.author;
+            document.getElementById("modal-price").innerText = book.price;
+            document.getElementById("modal-description").innerText = book.description;
             document.getElementById("bookModal").style.display = "flex";
         }
 
         function closeModal() {
             document.getElementById("bookModal").style.display = "none";
         }
+
+        window.onload = loadBooks;
     </script>
 </body>
 </html>
