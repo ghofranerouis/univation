@@ -6,7 +6,6 @@
     <title>كتب التنمية البشرية</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
 </head>
 <body>
     <div class="container">
@@ -17,32 +16,22 @@
         <h1>Univation Club</h1>
         <p>اكتشف مجموعة واسعة من كتب التنمية البشرية</p>
 
-        <!-- شريط البحث -->
-        <div class="search-bar">
-            <input type="text" id="searchBar" placeholder="ابحث عن كتاب..." onkeyup="searchBooks()">
-            <button><i class="fas fa-search"></i></button>
-        </div>
-        
-        <br><br> 
-        <!-- قائمة الكتب -->
         <div class="books-grid">
-            <div class="book" data-title="العادات السبع للناس الأكثر فعالية">
+            <div class="book" onclick="openModal('العادات السبع للناس الأكثر فعالية', 'ستيفن كوفي', '428.93 DA', 'كتاب يتحدث عن العادات الأساسية لتحقيق النجاح الشخصي والمهني.')">
                 <img src="7habits.jpg" alt="العادات السبع">
                 <div class="book-info">
                     <h3 class="title">العادات السبع للناس الأكثر فعالية</h3>
                     <p class="price">428.93 DA</p>
                 </div>
             </div>
-
-            <div class="book" data-title="كيف تؤثر على الآخرين وتكسب الأصدقاء">
+            <div class="book" onclick="openModal('كيف تؤثر على الآخرين وتكسب الأصدقاء', 'ديل كارنيجي', '557.87 DA', 'يقدم أساليب فعالة للتواصل مع الآخرين وكسب ثقتهم.')">
                 <img src="friends.jpg" alt="كيف تؤثر على الآخرين">
                 <div class="book-info">
                     <h3 class="title">كيف تؤثر على الآخرين وتكسب الأصدقاء</h3>
                     <p class="price">557.87 DA</p>
                 </div>
             </div>
-
-            <div class="book" data-title="قوة العادات">
+            <div class="book" onclick="openModal('قوة العادات', 'تشارلز دويج', '506.90 DA', 'خطط منهجية لاكتساب العادات وتحقيق النجاح.')">
                 <img src="power-habits.jpg" alt="قوة العادات">
                 <div class="book-info">
                     <h3 class="title">قوة العادات</h3>
@@ -52,19 +41,27 @@
         </div>
     </div>
 
-    <script>
-        function searchBooks() {
-            let input = document.getElementById("searchBar").value.toLowerCase();
-            let books = document.querySelectorAll(".book");
+    <div id="bookModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title"></h2>
+            <p><strong>المؤلف:</strong> <span id="modal-author"></span></p>
+            <p><strong>السعر:</strong> <span id="modal-price"></span></p>
+            <p id="modal-description"></p>
+        </div>
+    </div>
 
-            books.forEach(book => {
-                let title = book.getAttribute("data-title").toLowerCase();
-                if (title.includes(input)) {
-                    book.style.display = "block";
-                } else {
-                    book.style.display = "none";
-                }
-            });
+    <script>
+        function openModal(title, author, price, description) {
+            document.getElementById("modal-title").innerText = title;
+            document.getElementById("modal-author").innerText = author;
+            document.getElementById("modal-price").innerText = price;
+            document.getElementById("modal-description").innerText = description;
+            document.getElementById("bookModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("bookModal").style.display = "none";
         }
     </script>
 </body>
