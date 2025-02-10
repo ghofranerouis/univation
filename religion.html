@@ -23,39 +23,7 @@
         
         <br><br>
         
-        <div class="books-grid">
-            <div class="book" onclick="openModal('لأنك الله', 'علي بن جابر الفيفي', '1000.00 DA', 'كتاب يتحدث عن بعض أسماء الله الحسنى وكيف نعيشها في حياتنا.')">
-                <img src="lianak.jpg" alt="لأنك الله">
-                <div class="book-info">
-                    <h3 class="title">لأنك الله</h3>
-                    <p class="price">1000.00 DA</p>
-                </div>
-            </div>
-
-            <div class="book" onclick="openModal('رياض الصالحين', 'الإمام النووي', '650.50 DA', 'مجموعة من الأحاديث الصحيحة التي تحث على الأخلاق الفاضلة.')">
-                <img src="riyad-salehin.jpg" alt="رياض الصالحين">
-                <div class="book-info">
-                    <h3 class="title">رياض الصالحين</h3>
-                    <p class="price">650.50 DA</p>
-                </div>
-            </div>
-
-            <div class="book" onclick="openModal('صحيح البخاري', 'الإمام البخاري', '980.75 DA', 'أحد أهم كتب الحديث النبوي، يحتوي على أحاديث صحيحة.')">
-                <img src="bukhari.jpg" alt="صحيح البخاري">
-                <div class="book-info">
-                    <h3 class="title">صحيح البخاري</h3>
-                    <p class="price">980.75 DA</p>
-                </div>
-            </div>
-
-            <div class="book" onclick="openModal('إحياء علوم الدين', 'الإمام الغزالي', '1100.30 DA', 'كتاب يجمع بين الفقه والتصوف ويشرح طرق تزكية النفس.')">
-                <img src="ihya-uloom.jpg" alt="إحياء علوم الدين">
-                <div class="book-info">
-                    <h3 class="title">إحياء علوم الدين</h3>
-                    <p class="price">1100.30 DA</p>
-                </div>
-            </div>
-        </div>
+        <div class="books-grid" id="booksGrid"></div>
     </div>
 
     <div id="bookModal" class="modal">
@@ -69,27 +37,53 @@
     </div>
 
     <script>
+        const books = [
+            { title: "لأنك الله", author: "علي بن جابر الفيفي", price: "1000.00 DA", description: "كتاب يتحدث عن أسماء الله الحسنى ومدى تأثيرها في حياتنا.", image: "lianak.jpg" },
+            { title: "رياض الصالحين", author: "الإمام النووي", price: "650.50 DA", description: "مجموعة من الأحاديث النبوية الشريفة حول الفضائل والسلوك الإسلامي.", image: "riyad-salehin.jpg" },
+            { title: "صحيح البخاري", author: "الإمام البخاري", price: "980.75 DA", description: "أحد أهم كتب الحديث النبوي، يجمع أصح الأحاديث المروية عن النبي محمد صلى الله عليه وسلم.", image: "bukhari.jpg" },
+            { title: "إحياء علوم الدين", author: "أبو حامد الغزالي", price: "1100.30 DA", description: "كتاب يتناول مختلف الجوانب الروحية والأخلاقية والتعبدية في الإسلام.", image: "ihya-uloom.jpg" }
+        ];
+        
+        function displayBooks() {
+            const booksGrid = document.getElementById("booksGrid");
+            booksGrid.innerHTML = "";
+            books.forEach(book => {
+                const bookElement = document.createElement("div");
+                bookElement.classList.add("book");
+                bookElement.innerHTML = `
+                    <img src="${book.image}" alt="${book.title}">
+                    <div class="book-info">
+                        <h3 class="title">${book.title}</h3>
+                        <p class="price">${book.price}</p>
+                    </div>
+                `;
+                bookElement.onclick = () => openModal(book);
+                booksGrid.appendChild(bookElement);
+            });
+        }
+        
         function searchBooks() {
             let input = document.getElementById("searchBar").value.toLowerCase();
-            let books = document.querySelectorAll(".book");
-
-            books.forEach(book => {
-                let title = book.querySelector(".title").innerText.toLowerCase();
-                book.style.display = title.includes(input) ? "block" : "none";
+            let booksElements = document.querySelectorAll(".book");
+            booksElements.forEach((bookElement, index) => {
+                let title = books[index].title.toLowerCase();
+                bookElement.style.display = title.includes(input) ? "block" : "none";
             });
         }
 
-        function openModal(title, author, price, description) {
-            document.getElementById("modal-title").innerText = title;
-            document.getElementById("modal-author").innerText = author;
-            document.getElementById("modal-price").innerText = price;
-            document.getElementById("modal-description").innerText = description;
+        function openModal(book) {
+            document.getElementById("modal-title").innerText = book.title;
+            document.getElementById("modal-author").innerText = book.author;
+            document.getElementById("modal-price").innerText = book.price;
+            document.getElementById("modal-description").innerText = book.description;
             document.getElementById("bookModal").style.display = "flex";
         }
 
         function closeModal() {
             document.getElementById("bookModal").style.display = "none";
         }
+        
+        window.onload = displayBooks;
     </script>
 </body>
 </html>
