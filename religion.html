@@ -3,78 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> الكتب الدينية</title>
+    <title>الكتب الدينية</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
 </head>
 <body>
     <div class="container">
-        <!-- جعل الشعار قابلاً للنقر للعودة إلى الصفحة الرئيسية -->
         <a href="index.html">
             <img src="logo.jpg" alt="شعار النادي" class="logo">
         </a>
         
         <h1>Univation Club</h1>
-        <p>إكتشف مجموعة واسعة من الكتب الدينية</p>
-             <!-- شريط البحث -->
-             <div class="search-bar">
-                <input type="text" id="searchBar" placeholder="ابحث عن كتاب..." onkeyup="searchBooks()">
-                <button><i class="fas fa-search"></i></button>
+        <p>اكتشف مجموعة واسعة من الكتب الدينية</p>
+        
+        <div class="search-bar">
+            <input type="text" id="searchBar" placeholder="ابحث عن كتاب..." onkeyup="searchBooks()">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+        
+        <br><br>
+        
+        <div class="books-grid">
+            <div class="book" onclick="openModal('لأنك الله', 'علي بن جابر الفيفي', '1000.00 DA', 'كتاب يتحدث عن بعض أسماء الله الحسنى وكيف نعيشها في حياتنا.')">
+                <img src="lianak.jpg" alt="لأنك الله">
+                <div class="book-info">
+                    <h3 class="title">لأنك الله</h3>
+                    <p class="price">1000.00 DA</p>
+                </div>
             </div>
-            
-            
-            <br><br> 
-       <!-- قائمة الكتب الدينية -->
-<div class="books-grid">
-    <div class="book" data-title="لأنك الله">
-        <img src="lianak.jpg" alt="لأنك الله">
-        <div class="book-info">
-            <h3 class="title">لأنك الله</h3>
-            <p class="price">1000.00 DA</p>
+
+            <div class="book" onclick="openModal('رياض الصالحين', 'الإمام النووي', '650.50 DA', 'مجموعة من الأحاديث الصحيحة التي تحث على الأخلاق الفاضلة.')">
+                <img src="riyad-salehin.jpg" alt="رياض الصالحين">
+                <div class="book-info">
+                    <h3 class="title">رياض الصالحين</h3>
+                    <p class="price">650.50 DA</p>
+                </div>
+            </div>
+
+            <div class="book" onclick="openModal('صحيح البخاري', 'الإمام البخاري', '980.75 DA', 'أحد أهم كتب الحديث النبوي، يحتوي على أحاديث صحيحة.')">
+                <img src="bukhari.jpg" alt="صحيح البخاري">
+                <div class="book-info">
+                    <h3 class="title">صحيح البخاري</h3>
+                    <p class="price">980.75 DA</p>
+                </div>
+            </div>
+
+            <div class="book" onclick="openModal('إحياء علوم الدين', 'الإمام الغزالي', '1100.30 DA', 'كتاب يجمع بين الفقه والتصوف ويشرح طرق تزكية النفس.')">
+                <img src="ihya-uloom.jpg" alt="إحياء علوم الدين">
+                <div class="book-info">
+                    <h3 class="title">إحياء علوم الدين</h3>
+                    <p class="price">1100.30 DA</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="book" data-title="رياض الصالحين">
-        <img src="riyad-salehin.jpg" alt="رياض الصالحين">
-        <div class="book-info">
-            <h3 class="title">رياض الصالحين</h3>
-            <p class="price">650.50 DA</p>
+    <div id="bookModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title"></h2>
+            <p><strong>المؤلف:</strong> <span id="modal-author"></span></p>
+            <p><strong>السعر:</strong> <span id="modal-price"></span></p>
+            <p id="modal-description"></p>
         </div>
     </div>
 
-    <div class="book" data-title="صحيح البخاري">
-        <img src="bukhari.jpg" alt="صحيح البخاري">
-        <div class="book-info">
-            <h3 class="title">صحيح البخاري</h3>
-            <p class="price">980.75 DA</p>
-        </div>
-    </div>
-
-    <div class="book" data-title="إحياء علوم الدين">
-        <img src="ihya-uloom.jpg" alt="إحياء علوم الدين">
-        <div class="book-info">
-            <h3 class="title">إحياء علوم الدين</h3>
-            <p class="price">1100.30 DA</p>
-        </div>
-    </div>
-</div>
-
-    
     <script>
         function searchBooks() {
             let input = document.getElementById("searchBar").value.toLowerCase();
             let books = document.querySelectorAll(".book");
-    
+
             books.forEach(book => {
-                let title = book.getAttribute("data-title").toLowerCase();
-                if (title.includes(input)) {
-                    book.style.display = "block";
-                } else {
-                    book.style.display = "none";
-                }
+                let title = book.querySelector(".title").innerText.toLowerCase();
+                book.style.display = title.includes(input) ? "block" : "none";
             });
         }
+
+        function openModal(title, author, price, description) {
+            document.getElementById("modal-title").innerText = title;
+            document.getElementById("modal-author").innerText = author;
+            document.getElementById("modal-price").innerText = price;
+            document.getElementById("modal-description").innerText = description;
+            document.getElementById("bookModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("bookModal").style.display = "none";
+        }
     </script>
-    </body>
-    </html>
+</body>
+</html>
