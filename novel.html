@@ -23,39 +23,7 @@
 
         <br><br>
 
-        <div class="books-grid">
-            <div class="book" onclick="openModal('البؤساء', 'فيكتور هوغو', '750.00 DA', 'رواية فرنسية تحكي عن الظلم الاجتماعي والمصاعب في القرن التاسع عشر.')">
-                <img src="les-miserables.jpg" alt="البؤساء">
-                <div class="book-info">
-                    <h3 class="title">البؤساء</h3>
-                    <p class="price">750.00 DA</p>
-                </div>
-            </div>
-
-            <div class="book" onclick="openModal('مئة عام من العزلة', 'غابرييل غارسيا ماركيز', '890.50 DA', 'رواية تتبع تاريخ عائلة بوينديا عبر الأجيال في قرية ماكوندو.')">
-                <img src="one-hundred-years.jpg" alt="مئة عام من العزلة">
-                <div class="book-info">
-                    <h3 class="title">مئة عام من العزلة</h3>
-                    <p class="price">890.50 DA</p>
-                </div>
-            </div>
-
-            <div class="book" onclick="openModal('الخيميائي', 'باولو كويلو', '670.75 DA', 'رحلة شاب يبحث عن كنزه الشخصي متبعًا إشارات الحياة.')">
-                <img src="alchemist.jpg" alt="الخيميائي">
-                <div class="book-info">
-                    <h3 class="title">الخيميائي</h3>
-                    <p class="price">670.75 DA</p>
-                </div>
-            </div>
-
-            <div class="book" onclick="openModal('الجريمة والعقاب', 'فيودور دوستويفسكي', '940.30 DA', 'رواية فلسفية تناقش الصراع الداخلي بعد ارتكاب جريمة.')">
-                <img src="crime-and-punishment.jpg" alt="الجريمة والعقاب">
-                <div class="book-info">
-                    <h3 class="title">الجريمة والعقاب</h3>
-                    <p class="price">940.30 DA</p>
-                </div>
-            </div>
-        </div>
+        <div class="books-grid" id="booksGrid"></div>
     </div>
 
     <div id="bookModal" class="modal">
@@ -69,10 +37,35 @@
     </div>
 
     <script>
+        const books = [
+            { title: "البؤساء", author: "فيكتور هوغو", price: "750.00 DA", image: "les-miserables.jpg", description: "رواية فرنسية تحكي عن الظلم الاجتماعي والمصاعب في القرن التاسع عشر." },
+            { title: "مئة عام من العزلة", author: "غابرييل غارسيا ماركيز", price: "890.50 DA", image: "one-hundred-years.jpg", description: "رواية تتبع تاريخ عائلة بوينديا عبر الأجيال في قرية ماكوندو." },
+            { title: "الخيميائي", author: "باولو كويلو", price: "670.75 DA", image: "alchemist.jpg", description: "رحلة شاب يبحث عن كنزه الشخصي متبعًا إشارات الحياة." },
+            { title: "الجريمة والعقاب", author: "فيودور دوستويفسكي", price: "940.30 DA", image: "crime-and-punishment.jpg", description: "رواية فلسفية تناقش الصراع الداخلي بعد ارتكاب جريمة." }
+        ];
+
+        function loadBooks() {
+            const booksGrid = document.getElementById("booksGrid");
+            booksGrid.innerHTML = "";
+            books.forEach(book => {
+                let bookElement = document.createElement("div");
+                bookElement.className = "book";
+                bookElement.onclick = () => openModal(book.title, book.author, book.price, book.description);
+                bookElement.innerHTML = `
+                    <img src="${book.image}" alt="${book.title}">
+                    <div class="book-info">
+                        <h3 class="title">${book.title}</h3>
+                        <p class="price">${book.price}</p>
+                    </div>
+                `;
+                booksGrid.appendChild(bookElement);
+            });
+        }
+
         function searchBooks() {
             let input = document.getElementById("searchBar").value.toLowerCase();
-            let books = document.querySelectorAll(".book");
-            books.forEach(book => {
+            let booksElements = document.querySelectorAll(".book");
+            booksElements.forEach(book => {
                 let title = book.querySelector(".title").innerText.toLowerCase();
                 book.style.display = title.includes(input) ? "block" : "none";
             });
@@ -89,6 +82,8 @@
         function closeModal() {
             document.getElementById("bookModal").style.display = "none";
         }
+
+        window.onload = loadBooks;
     </script>
 </body>
 </html>
