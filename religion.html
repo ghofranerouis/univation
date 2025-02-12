@@ -17,10 +17,10 @@
         <p>اكتشف مجموعة واسعة من الكتب الدينية</p>
         
         <div class="search-bar">
-            <input type="text" id="searchBar" placeholder="ابحث عن كتاب..." onkeyup="searchBooks()">
+            <input type="text" id="searchBar" placeholder="ابحث عن كتاب أو مؤلف..." onkeyup="searchBooks()">
             <button><i class="fas fa-search"></i></button>
         </div>
-        
+
         <br><br>
         
         <div class="books-grid" id="booksGrid"></div>
@@ -43,31 +43,32 @@
             { title: "صحيح البخاري", author: "الإمام البخاري", price: "980.75 DA", description: "أحد أهم كتب الحديث النبوي، يجمع أصح الأحاديث المروية عن النبي محمد صلى الله عليه وسلم.", image: "bukhari.jpg" },
             { title: "إحياء علوم الدين", author: "أبو حامد الغزالي", price: "1100.30 DA", description: "كتاب يتناول مختلف الجوانب الروحية والأخلاقية والتعبدية في الإسلام.", image: "ihya-uloom.jpg" }
         ];
-        
-        function displayBooks() {
+
+        function loadBooks() {
             const booksGrid = document.getElementById("booksGrid");
             booksGrid.innerHTML = "";
             books.forEach(book => {
-                const bookElement = document.createElement("div");
-                bookElement.classList.add("book");
-                bookElement.innerHTML = `
+                const bookDiv = document.createElement("div");
+                bookDiv.classList.add("book");
+                bookDiv.onclick = () => openModal(book);
+                bookDiv.innerHTML = `
                     <img src="${book.image}" alt="${book.title}">
                     <div class="book-info">
                         <h3 class="title">${book.title}</h3>
+                        <p class="author">${book.author}</p>
                         <p class="price">${book.price}</p>
                     </div>
                 `;
-                bookElement.onclick = () => openModal(book);
-                booksGrid.appendChild(bookElement);
+                booksGrid.appendChild(bookDiv);
             });
         }
-        
+
         function searchBooks() {
             let input = document.getElementById("searchBar").value.toLowerCase();
-            let booksElements = document.querySelectorAll(".book");
-            booksElements.forEach((bookElement, index) => {
-                let title = books[index].title.toLowerCase();
-                bookElement.style.display = title.includes(input) ? "block" : "none";
+            document.querySelectorAll(".book").forEach(book => {
+                let title = book.querySelector(".title").innerText.toLowerCase();
+                let author = book.querySelector(".author").innerText.toLowerCase();
+                book.style.display = (title.includes(input) || author.includes(input)) ? "block" : "none";
             });
         }
 
@@ -82,8 +83,8 @@
         function closeModal() {
             document.getElementById("bookModal").style.display = "none";
         }
-        
-        window.onload = displayBooks;
+
+        window.onload = loadBooks;
     </script>
 </body>
 </html>
