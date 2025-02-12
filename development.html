@@ -12,19 +12,19 @@
         <a href="index.html">
             <img src="logo.jpg" alt="شعار النادي" class="logo">
         </a>
-
+        
         <h1>Univation Club</h1>
         <p>اكتشف مجموعة واسعة من كتب التنمية البشرية</p>
+        
+        <div class="search-bar">
+            <input type="text" id="searchBar" placeholder="ابحث عن كتاب..." onkeyup="searchBooks()">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+
+        <br><br>
+        
+        <div class="books-grid" id="booksGrid"></div>
     </div>
-
-    <div class="search-bar">
-        <input type="text" id="searchBar" placeholder="ابحث عن كتاب..." onkeyup="searchBooks()">
-        <button><i class="fas fa-search"></i></button>
-    </div>
-
-    <br><br>
-
-    <div class="books-grid" id="booksGrid"></div>
 
     <div id="bookModal" class="modal">
         <div class="modal-content">
@@ -38,37 +38,42 @@
 
     <script>
         const books = [
-            { title: "العادات السبع للناس الأكثر فعالية", author: "ستيفن كوفي", price: "428.93 DA", description: "كتاب يتحدث عن العادات الأساسية لتحقيق النجاح الشخصي والمهني.", img: "7habits.jpg" },
-            { title: "كيف تؤثر على الآخرين وتكسب الأصدقاء", author: "ديل كارنيجي", price: "557.87 DA", description: "يقدم أساليب فعالة للتواصل مع الآخرين وكسب ثقتهم.", img: "friends.jpg" },
-            { title: "قوة العادات", author: "تشارلز دويج", price: "506.90 DA", description: "خطط منهجية لاكتساب العادات وتحقيق النجاح.", img: "power-habits.jpg" }
+            { title: "العادات السبع للناس الأكثر فعالية", author: "ستيفن كوفي", price: "428.93 DA", description: "كتاب يتحدث عن العادات الأساسية لتحقيق النجاح الشخصي والمهني.", image: "7habits.jpg" },
+            { title: "كيف تؤثر على الآخرين وتكسب الأصدقاء", author: "ديل كارنيجي", price: "557.87 DA", description: "يقدم أساليب فعالة للتواصل مع الآخرين وكسب ثقتهم.", image: "friends.jpg" },
+            { title: "قوة العادات", author: "تشارلز دويج", price: "506.90 DA", description: "خطط منهجية لاكتساب العادات وتحقيق النجاح.", image: "power-habits.jpg" }
         ];
 
         function loadBooks() {
             const booksGrid = document.getElementById("booksGrid");
-            booksGrid.innerHTML = ""; // مسح الكتب السابقة
-
+            booksGrid.innerHTML = "";
             books.forEach(book => {
                 const bookDiv = document.createElement("div");
                 bookDiv.classList.add("book");
-                bookDiv.onclick = () => openModal(book.title, book.author, book.price, book.description);
-                
+                bookDiv.onclick = () => openModal(book);
                 bookDiv.innerHTML = `
-                    <img src="${book.img}" alt="${book.title}">
+                    <img src="${book.image}" alt="${book.title}">
                     <div class="book-info">
                         <h3 class="title">${book.title}</h3>
                         <p class="price">${book.price}</p>
                     </div>
                 `;
-                
                 booksGrid.appendChild(bookDiv);
             });
         }
 
-        function openModal(title, author, price, description) {
-            document.getElementById("modal-title").innerText = title;
-            document.getElementById("modal-author").innerText = author;
-            document.getElementById("modal-price").innerText = price;
-            document.getElementById("modal-description").innerText = description;
+        function searchBooks() {
+            let input = document.getElementById("searchBar").value.toLowerCase();
+            document.querySelectorAll(".book").forEach(book => {
+                let title = book.querySelector(".title").innerText.toLowerCase();
+                book.style.display = title.includes(input) ? "block" : "none";
+            });
+        }
+
+        function openModal(book) {
+            document.getElementById("modal-title").innerText = book.title;
+            document.getElementById("modal-author").innerText = book.author;
+            document.getElementById("modal-price").innerText = book.price;
+            document.getElementById("modal-description").innerText = book.description;
             document.getElementById("bookModal").style.display = "flex";
         }
 
@@ -76,31 +81,7 @@
             document.getElementById("bookModal").style.display = "none";
         }
 
-        function searchBooks() {
-            const query = document.getElementById("searchBar").value.toLowerCase();
-            const booksGrid = document.getElementById("booksGrid");
-            booksGrid.innerHTML = "";
-
-            books
-                .filter(book => book.title.toLowerCase().includes(query) || book.author.toLowerCase().includes(query))
-                .forEach(book => {
-                    const bookDiv = document.createElement("div");
-                    bookDiv.classList.add("book");
-                    bookDiv.onclick = () => openModal(book.title, book.author, book.price, book.description);
-
-                    bookDiv.innerHTML = `
-                        <img src="${book.img}" alt="${book.title}">
-                        <div class="book-info">
-                            <h3 class="title">${book.title}</h3>
-                            <p class="price">${book.price}</p>
-                        </div>
-                    `;
-
-                    booksGrid.appendChild(bookDiv);
-                });
-        }
-
-        document.addEventListener("DOMContentLoaded", loadBooks);
+        window.onload = loadBooks;
     </script>
 </body>
 </html>
