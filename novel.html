@@ -17,12 +17,12 @@
         <p>اكتشف مجموعة واسعة من الروايات</p>
         
         <div class="search-bar">
-            <input type="text" id="searchBar" placeholder="ابحث عن رواية..." onkeyup="searchBooks()">
+            <input type="text" id="searchBar" placeholder="ابحث عن رواية أو مؤلف..." onkeyup="searchBooks()">
             <button><i class="fas fa-search"></i></button>
         </div>
 
         <br><br>
-
+        
         <div class="books-grid" id="booksGrid"></div>
     </div>
 
@@ -38,44 +38,45 @@
 
     <script>
         const books = [
-            { title: "البؤساء", author: "فيكتور هوغو", price: "750.00 DA", image: "les-miserables.jpg", description: "رواية فرنسية تحكي عن الظلم الاجتماعي والمصاعب في القرن التاسع عشر." },
-            { title: "مئة عام من العزلة", author: "غابرييل غارسيا ماركيز", price: "890.50 DA", image: "one-hundred-years.jpg", description: "رواية تتبع تاريخ عائلة بوينديا عبر الأجيال في قرية ماكوندو." },
-            { title: "الخيميائي", author: "باولو كويلو", price: "670.75 DA", image: "alchemist.jpg", description: "رحلة شاب يبحث عن كنزه الشخصي متبعًا إشارات الحياة." },
-            { title: "الجريمة والعقاب", author: "فيودور دوستويفسكي", price: "940.30 DA", image: "crime-and-punishment.jpg", description: "رواية فلسفية تناقش الصراع الداخلي بعد ارتكاب جريمة." }
+            { title: "البؤساء", author: "فيكتور هوغو", price: "750.00 DA", description: "رواية فرنسية تحكي عن الظلم الاجتماعي والمصاعب في القرن التاسع عشر.", image: "les-miserables.jpg" },
+            { title: "مئة عام من العزلة", author: "غابرييل غارسيا ماركيز", price: "890.50 DA", description: "رواية تتبع تاريخ عائلة بوينديا عبر الأجيال في قرية ماكوندو.", image: "one-hundred-years.jpg" },
+            { title: "الخيميائي", author: "باولو كويلو", price: "670.75 DA", description: "رحلة شاب يبحث عن كنزه الشخصي متبعًا إشارات الحياة.", image: "alchemist.jpg" },
+            { title: "الجريمة والعقاب", author: "فيودور دوستويفسكي", price: "940.30 DA", description: "رواية فلسفية تناقش الصراع الداخلي بعد ارتكاب جريمة.", image: "crime-and-punishment.jpg" }
         ];
 
         function loadBooks() {
             const booksGrid = document.getElementById("booksGrid");
             booksGrid.innerHTML = "";
             books.forEach(book => {
-                let bookElement = document.createElement("div");
-                bookElement.className = "book";
-                bookElement.onclick = () => openModal(book.title, book.author, book.price, book.description);
-                bookElement.innerHTML = `
+                const bookDiv = document.createElement("div");
+                bookDiv.classList.add("book");
+                bookDiv.onclick = () => openModal(book);
+                bookDiv.innerHTML = `
                     <img src="${book.image}" alt="${book.title}">
                     <div class="book-info">
                         <h3 class="title">${book.title}</h3>
+                        <p class="author">${book.author}</p>
                         <p class="price">${book.price}</p>
                     </div>
                 `;
-                booksGrid.appendChild(bookElement);
+                booksGrid.appendChild(bookDiv);
             });
         }
 
         function searchBooks() {
             let input = document.getElementById("searchBar").value.toLowerCase();
-            let booksElements = document.querySelectorAll(".book");
-            booksElements.forEach(book => {
+            document.querySelectorAll(".book").forEach(book => {
                 let title = book.querySelector(".title").innerText.toLowerCase();
-                book.style.display = title.includes(input) ? "block" : "none";
+                let author = book.querySelector(".author").innerText.toLowerCase();
+                book.style.display = (title.includes(input) || author.includes(input)) ? "block" : "none";
             });
         }
 
-        function openModal(title, author, price, description) {
-            document.getElementById("modal-title").innerText = title;
-            document.getElementById("modal-author").innerText = author;
-            document.getElementById("modal-price").innerText = price;
-            document.getElementById("modal-description").innerText = description;
+        function openModal(book) {
+            document.getElementById("modal-title").innerText = book.title;
+            document.getElementById("modal-author").innerText = book.author;
+            document.getElementById("modal-price").innerText = book.price;
+            document.getElementById("modal-description").innerText = book.description;
             document.getElementById("bookModal").style.display = "flex";
         }
 
