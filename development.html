@@ -16,15 +16,16 @@
         <h1>Univation Club</h1>
         <p>اكتشف مجموعة واسعة من كتب التنمية البشرية</p>
     </div>
-<div class="search-bar">
-            <input type="text" id="searchBar" placeholder="ابحث عن كتاب..." onkeyup="searchBooks()">
-            <button><i class="fas fa-search"></i></button>
-        </div>
 
-        <br><br>
-        
-        <div class="books-grid" id="booksGrid"></div>
-</div>
+    <div class="search-bar">
+        <input type="text" id="searchBar" placeholder="ابحث عن كتاب..." onkeyup="searchBooks()">
+        <button><i class="fas fa-search"></i></button>
+    </div>
+
+    <br><br>
+
+    <div class="books-grid" id="booksGrid"></div>
+
     <div id="bookModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -44,6 +45,8 @@
 
         function loadBooks() {
             const booksGrid = document.getElementById("booksGrid");
+            booksGrid.innerHTML = ""; // مسح الكتب السابقة
+
             books.forEach(book => {
                 const bookDiv = document.createElement("div");
                 bookDiv.classList.add("book");
@@ -71,6 +74,30 @@
 
         function closeModal() {
             document.getElementById("bookModal").style.display = "none";
+        }
+
+        function searchBooks() {
+            const query = document.getElementById("searchBar").value.toLowerCase();
+            const booksGrid = document.getElementById("booksGrid");
+            booksGrid.innerHTML = "";
+
+            books
+                .filter(book => book.title.toLowerCase().includes(query) || book.author.toLowerCase().includes(query))
+                .forEach(book => {
+                    const bookDiv = document.createElement("div");
+                    bookDiv.classList.add("book");
+                    bookDiv.onclick = () => openModal(book.title, book.author, book.price, book.description);
+
+                    bookDiv.innerHTML = `
+                        <img src="${book.img}" alt="${book.title}">
+                        <div class="book-info">
+                            <h3 class="title">${book.title}</h3>
+                            <p class="price">${book.price}</p>
+                        </div>
+                    `;
+
+                    booksGrid.appendChild(bookDiv);
+                });
         }
 
         document.addEventListener("DOMContentLoaded", loadBooks);
