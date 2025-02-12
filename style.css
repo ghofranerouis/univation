@@ -220,3 +220,7 @@ p {
     float: right;
     font-size: 20px;
 }
+.author {
+    color: #D8BFD8;
+    font-weight: bold;
+    }
