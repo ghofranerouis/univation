@@ -15,10 +15,16 @@
 
         <h1>Univation Club</h1>
         <p>اكتشف مجموعة واسعة من كتب التنمية البشرية</p>
-
-        <div class="books-grid" id="booksGrid"></div>
     </div>
+<div class="search-bar">
+            <input type="text" id="searchBar" placeholder="ابحث عن كتاب..." onkeyup="searchBooks()">
+            <button><i class="fas fa-search"></i></button>
+        </div>
 
+        <br><br>
+        
+        <div class="books-grid" id="booksGrid"></div>
+</div>
     <div id="bookModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
