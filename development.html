@@ -17,7 +17,7 @@
         <p>اكتشف مجموعة واسعة من كتب التنمية البشرية</p>
         
         <div class="search-bar">
-            <input type="text" id="searchBar" placeholder="ابحث عن كتاب..." onkeyup="searchBooks()">
+            <input type="text" id="searchBar" placeholder="ابحث عن كتاب أو مؤلف..." onkeyup="searchBooks()">
             <button><i class="fas fa-search"></i></button>
         </div>
 
@@ -54,6 +54,7 @@
                     <img src="${book.image}" alt="${book.title}">
                     <div class="book-info">
                         <h3 class="title">${book.title}</h3>
+                        <p class="author">${book.author}</p>
                         <p class="price">${book.price}</p>
                     </div>
                 `;
@@ -65,7 +66,8 @@
             let input = document.getElementById("searchBar").value.toLowerCase();
             document.querySelectorAll(".book").forEach(book => {
                 let title = book.querySelector(".title").innerText.toLowerCase();
-                book.style.display = title.includes(input) ? "block" : "none";
+                let author = book.querySelector(".author").innerText.toLowerCase();
+                book.style.display = (title.includes(input) || author.includes(input)) ? "block" : "none";
             });
         }
 
